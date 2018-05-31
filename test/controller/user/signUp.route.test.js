@@ -9,7 +9,7 @@ const {app} = require('../../../src/app');
 //story
 const {User} = require('../../../src/models/user.model');
 //test
-describe('test POST/user/signup',()=>{
+describe('test POST/user/signUp',()=>{
     it('Có thể Signup',async()=>{
         //tao dữ liêu
         const body ={

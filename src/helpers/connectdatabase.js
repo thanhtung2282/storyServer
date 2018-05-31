@@ -9,8 +9,9 @@ function getDatabaseUri(){
     // môi trường local
     return 'mongodb://localhost/mean1003';
 }
+mongoose.Promise = global.Promise;
 //connect
-mongoose.connect(getDatabaseUri())
+mongoose.connect(getDatabaseUri(), {useMongoClient:true})
 .then(()=>console.log('Connected Database'))
 .catch((error)=>{
     console.log('Error Connect Database : ',error.message);
