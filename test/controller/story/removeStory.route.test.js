@@ -18,7 +18,7 @@ describe('test DELETE/story/:_id',()=>{
         const response = await supertest(app).delete('/story/'+idStory);
         // console.log(response.body)
         const {success , story} = response.body;
-        equal(success,true);
+        equal(success,true);    
         equal(story.content,'abcd');
         const storyDB = await Story.findOne({});
         equal(storyDB,null);

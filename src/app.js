@@ -24,7 +24,7 @@ app.put('/story/:_id',(req,res)=>{
     // lấy các giá trị dc gửi lên
     const {content} = req.body;
     //sửa 
-    Story.findByIdAndUpdate(req.params._id,{content})
+    Story.findByIdAndUpdate(req.params._id,{content}, {new:true})
     .then((story)=>{
         if(!story) throw new Error('Cannot Find Story');
         res.send({success:true, story});
