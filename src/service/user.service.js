@@ -1,6 +1,6 @@
 
 const { hash, compare} = require('bcryptjs');
-const {sign} = require('../helpers/jwt');
+const {sign, verify} = require('../helpers/jwt');
 const {User} = require('../models/user.model');
 
 class UserService {
@@ -26,6 +26,19 @@ class UserService {
         //xoa pass
         const userInfo = user.toObject();
         delete userInfo.password;
+        return userInfo;
+    }
+    static async check(token){
+        //verify token
+        const { _id } = await verify(token);
+        //kiểm tra có tồn tại
+        const user = await User.findById(_id);
+        //ko có lỗi
+        if(!user) throw new Error('Cannot find user');
+        // bỏ token
+        const userInfo = user.toObject();
+        delete userInfo.password;
+        userInfo.token = await sign({_id:user._id});
         return userInfo;
     }
 }

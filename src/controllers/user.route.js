@@ -18,4 +18,12 @@ userRouter.post('/signup', (req, res) => {
     .then(user => res.send({ success: true, user }))
     .catch(error => res.status(400).send({ success: false, message: error.message }));
 });
+userRouter.get('/check', (req, res) => {
+    //get token
+    const { token } = req.headers;
+    //check
+    UserService.check(token)
+    .then(user =>  res.send({ success: true, user }))
+    .catch(error => res.status(400).send({ success: false, message: error.message }));
+});
 module.exports = {userRouter};
