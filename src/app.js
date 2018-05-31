@@ -16,7 +16,7 @@ app.post('/story',(req,res)=>{
     const story = new Story({content});
     //lưu
     story.save()
-    .then((storyInfo)=>{res.send({success:true , storyInfo})})
+    .then((storyInfo)=>{res.send({success:true , story:storyInfo})})
     .catch((error)=>res.status(400).send({success:false, message:error.message}));  
 });
 // sửa story

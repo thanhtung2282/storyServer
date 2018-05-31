@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 //use Schema
 storySchema = new Schema({
-    story:{type:String, trim:true, required:true}
+    content:{type:String, trim:true, required:true}
 });
 const Story = mongoose.model('Story',storySchema);
 //exports
