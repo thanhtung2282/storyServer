@@ -65,7 +65,7 @@ app.post('/user/signin', (req, res) => {
             if (!same) throw new Error('Invalid password');
             return res.send({ success: true, user });
         })
-        .catch(error => res.send({ success: false, message: error.message }));
+        .catch(error => res.status(400).send({ success: false, message: error.message }));
     });
     
 app.post('/user/signup', (req, res) => {
@@ -80,6 +80,6 @@ app.post('/user/signup', (req, res) => {
         })
         //send result
         .then(user => res.send({ success: true, user }))
-        .catch(error => res.send({ success: false, message: error.message }));
+        .catch(error => res.status(400).send({ success: false, message: error.message }));
     });
 module.exports = {app};
