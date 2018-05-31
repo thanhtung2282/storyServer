@@ -10,7 +10,7 @@ const {app} = require('../../../src/app');
 const {User} = require('../../../src/models/user.model');
 //test
 describe('test POST/user/signUp',()=>{
-    it.only('Có thể Signup',async()=>{
+    it('Có thể Signup',async()=>{
         //tao dữ liêu
         const body ={
             email:"test@gmail.com",
@@ -19,19 +19,20 @@ describe('test POST/user/signUp',()=>{
         }
         //send du lieu
         const response = await supertest(app).post('/user/signup').send(body)
-            console.log(response.body);
-        // //equal ketqua
-        // const {success,user} = response.body;
-        // equal(success,true);
-        // equal(user.name,'TEST');
-        // equal(user.email,'test@gmail.com');
-        // //equal in database
-        // const userDB = await User.findOne({});
-        // equal(userDB._id.toString(),user._id);
-        // equal(userDB.name,'TEST');
-        // equal(userDB.email,'test@gmail.com');
-        // const same = compareSync('123',userDB.password)
-        // equal(same,true);
+            // console.log(response.body);
+        //equal ketqua
+        const {success,user} = response.body;
+        equal(success,true);
+        equal(user.name,'TEST');
+        equal(user.email,'test@gmail.com');
+        equal(user.password,undefined);
+        //equal in database
+        const userDB = await User.findOne({});
+        equal(userDB._id.toString(),user._id);
+        equal(userDB.name,'TEST');
+        equal(userDB.email,'test@gmail.com');
+        const same = compareSync('123',userDB.password)
+        equal(same,true);
     });
     it('khong thể signup khi empty email',async()=>{
         //tao dữ liêu

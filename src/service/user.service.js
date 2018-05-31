@@ -1,6 +1,6 @@
 
 const { hash, compare} = require('bcryptjs');
-
+const {sign} = require('../helpers/jwt');
 const {User} = require('../models/user.model');
 
 class UserService {
@@ -11,7 +11,12 @@ class UserService {
         if(!user) throw new Error('Cannot find user');
         const same = await compare(plainPassword,user.password);
         if(!same) throw new Error('Invalid password');
-        return user;
+        const userInfo = user.toObject();
+        //xoa pass
+        delete userInfo.password;
+        //them token
+        userInfo.token = await sign({_id:user._id});
+        return userInfo;
 
     }
     static async SignUp(email, plainPassword, name ){

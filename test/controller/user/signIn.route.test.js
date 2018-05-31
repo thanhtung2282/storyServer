@@ -4,6 +4,8 @@ const  supertest  = require('supertest');
 const {equal} = require('assert');
 //bcryptjs 
 const {compareSync} = require('bcryptjs');
+//token
+const {verify} = require('../../../src/helpers/jwt');
 //app
 const {app} = require('../../../src/app');
 //story
@@ -34,6 +36,9 @@ describe('test POST/user/signIn',()=>{
         equal(success,true);
         equal(user.name,'TEST');
         equal(user.email,'test@gmail.com');
+        equal(user.password,undefined);
+        const token = await verify(user.token);
+        equal(user._id,token._id);
     });
     it('Không thể SignIn khi empty email',async()=>{
         //tao dữ liêu
