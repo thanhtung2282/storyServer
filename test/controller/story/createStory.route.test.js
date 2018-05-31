@@ -22,4 +22,19 @@ describe('test POST/story',()=>{
         equal(storyDB.content,'ABCD');
         equal(storyDB._id,story._id);
     });
+    it('không thể tạo mới story khi không có content',async()=>{
+        // send du lieu
+        const response = await supertest(app).post('/story').send({content : ''});
+        // get dulieu  
+        // console.log(response.body);
+        const {success, story} = response.body;
+        // kiem tra hợp lệ
+        equal(success,false);
+        equal(story,undefined);
+        equal(response.status,400);
+        //kiem tra trong db
+        const storyDB =  await Story.findOne({});
+        // kiem tra hợp lệ
+        equal(storyDB,null);
+    });
 });
