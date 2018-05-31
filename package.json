@@ -1,0 +1,12 @@
+{
+  "name": "storyServer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/thanhtung2282/storyServer.git",
+  "author": "thanhtung2282 <tungnguyenthanh357@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.3",
+    "mongoose": "^5.1.3"
+  }
+}
