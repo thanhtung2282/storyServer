@@ -1,6 +1,8 @@
 const express =require('express');
 const {json} = require('body-parser');
+const {hash,compare} = require('bcryptjs');
 const {Story} = require('./models/story.model');
+const {User} = require('./models/user.model');
 const app = express();
 //middleware json
 app.use(json());
@@ -44,4 +46,40 @@ app.delete('/story/:_id',(req,res)=>{
         res.status(400).send({success:false, message:error.message});
     })
 });
+//user 
+//signUP
+app.post('/user/signin', (req, res) => {
+    //get du lieu
+        const { email, plainPassword } = req.body;
+        let user;
+        //tim theo email
+        User.findOne({ email })
+        //kiem tra tồn tại user and sosanh pass
+        .then(u => {
+            if (!u) throw new Error('Cannot find user');
+            user = u;
+            return compare(plainPassword, u.password);
+        })
+        //send result
+        .then(same => {
+            if (!same) throw new Error('Invalid password');
+            return res.send({ success: true, user });
+        })
+        .catch(error => res.send({ success: false, message: error.message }));
+    });
+    
+app.post('/user/signup', (req, res) => {
+    //get du lieu
+        const { email, plainPassword, name } = req.body;
+        //băm mat khau
+        hash(plainPassword, 8)
+        // luu db
+        .then(encryptedPassword => {
+            const user = new User({ name, email, password: encryptedPassword });
+            return user.save();
+        })
+        //send result
+        .then(user => res.send({ success: true, user }))
+        .catch(error => res.send({ success: false, message: error.message }));
+    });
 module.exports = {app};
