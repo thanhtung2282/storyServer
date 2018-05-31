@@ -17,7 +17,11 @@ class UserService {
     static async SignUp(email, plainPassword, name ){
         const password = await  hash(plainPassword, 8);
         const user = new User({ name, email, password });
-        return user.save();
+        await user.save();
+        //xoa pass
+        const userInfo = user.toObject();
+        delete userInfo.password;
+        return userInfo;
     }
 }
 module.exports = {UserService};
