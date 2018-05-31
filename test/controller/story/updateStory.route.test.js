@@ -37,7 +37,7 @@ describe('test PUT/story/:_id',()=>{
     it('Không thể update 1 story đã bị xoá ',async()=>{
         await Story.findByIdAndRemove(idStory);
         const response = await supertest(app).put('/story/'+idStory).send({content:'AAA'});
-        // console.log(response.body)
+        console.log(response.body)
         const {success,message} = response.body;
         equal(success,false);
         equal(message,'Cannot Find Story');    
