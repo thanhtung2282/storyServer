@@ -20,14 +20,23 @@ class UserService {
         return userInfo;
 
     }
-    static async SignUp(email, plainPassword, name ){
-        const password = await  hash(plainPassword, 8);
-        const user = new User({ name, email, password });
-        await user.save();
-        //xoa pass
-        const userInfo = user.toObject();
-        delete userInfo.password;
-        return userInfo;
+    static async SignUp(email, plainPassword , name){
+        if(!plainPassword) throw new MyError('INVALID_PASSWORD',400);
+        try {
+            const password = await  hash(plainPassword, 8);
+            const user = new User({ name, email, password });
+            await user.save();
+            //xoa pass
+            const userInfo = user.toObject();
+            delete userInfo.password;
+            return userInfo;
+        } catch (error) {
+            // console.log(error.name)
+            if(error.name === 'ValidationError') throw new MyError('INVALID_USER_INFO',400);
+            throw new MyError('EMAIL_EXISSTED',400);
+
+  
+        }
     }
     static async check(idUser){
         //kiểm tra có tồn tại

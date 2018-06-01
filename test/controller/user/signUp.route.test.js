@@ -45,9 +45,31 @@ describe('test POST/user/signUp',()=>{
         const response = await supertest(app).post('/user/signup').send(body)
             // console.log(response.body);
         //equal ketqua
-        const {success,user} = response.body;
+        const {success,user,message} = response.body;
         equal(success,false);
         equal(response.status,400);
+        equal(message,'INVALID_USER_INFO');
+        equal(user,undefined);
+        //equal in database
+        const userDB = await User.findOne({});
+        // console.log(userDB);
+        equal(userDB,null);
+    });
+    it('khong thể signup khi empty password',async()=>{
+        //tao dữ liêu
+        const body ={
+            email:"test@gmail.com",
+            plainPassword:'',
+            name:'TEST'
+        }
+        //send du lieu
+        const response = await supertest(app).post('/user/signup').send(body)
+            // console.log(response.body);
+        //equal ketqua
+        const {success,user,message} = response.body;
+        equal(success,false);
+        equal(response.status,400);
+        equal(message,'INVALID_PASSWORD');
         equal(user,undefined);
         //equal in database
         const userDB = await User.findOne({});
@@ -65,9 +87,10 @@ describe('test POST/user/signUp',()=>{
         const response = await supertest(app).post('/user/signup').send(body)
             // console.log(response.body);
         //equal ketqua
-        const {success,user} = response.body;
+        const {success,user,message} = response.body;
         equal(success,false);
         equal(response.status,400);
+        equal(message,'INVALID_USER_INFO');
         equal(user,undefined);
         //equal in database
         const userDB = await User.findOne({});
@@ -87,9 +110,10 @@ describe('test POST/user/signUp',()=>{
         const response = await supertest(app).post('/user/signup').send(body);
             // console.log(response.body);
         //equal ketqua
-        const {success} = response.body;
+        const {success,message} = response.body;
         equal(success,false);
         equal(response.status,400);
+        equal(message,'EMAIL_EXISSTED');
         //equal in database
         const userCount = await User.count();
         // console.log(userCount);
