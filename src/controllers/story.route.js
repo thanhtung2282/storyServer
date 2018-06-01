@@ -1,5 +1,6 @@
 const {Router} = require('express');
-const {StoryService} =require('../service/story.service')
+const {verify} = require('../helpers/jwt');
+const {StoryService} =require('../service/story.service');
 const storyRouter = Router();
 // lấy tất cả story
 storyRouter.get('/',(req,res)=>{
@@ -9,7 +10,9 @@ storyRouter.get('/',(req,res)=>{
 storyRouter.post('/',(req,res)=>{
     // lấy các giá trị được gữi lên
     const { content } = req.body;
-    StoryService.createStory(content)
+    //verify token được gui đế lấy _id user
+    verify(req.headers.token)
+    .then(obj => StoryService.createStory(obj._id,content) )
     .then((story)=>{res.send({success:true , story})})
     .catch((error)=>res.status(400).send({success:false, message:error.message}));  
 });
