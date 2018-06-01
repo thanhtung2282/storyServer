@@ -20,19 +20,18 @@ describe('test POST/story',()=>{
     it.only('Có thể tạo mới story',async()=>{
         // send du lieu
         const response = await supertest(app).post('/story').set({token}).send({content : 'ABCD'});
-        console.log(response.body);
-        // const {success, story} = response.body;
-        // // kiem tra hợp lệ
-        // equal(success,true);
-        // equal(story.content,'ABCD');
-        // //kiem tra trong db
+        // console.log(response.body);
+        const {success, story} = response.body;
+        // kiem tra hợp lệ
+        equal(success,true);
+        equal(story.content,'ABCD');
+        equal(story.author,_id);
+        //kiem tra trong db
         const storyDB =  await Story.findOne({}).populate('author');
-        console.log(storyDB);
-        const userDB =  await User.findById(_id);
-        console.log(userDB);
-        // // kiem tra hợp lệ
-        // equal(storyDB.content,'ABCD');
-        // equal(storyDB._id,story._id);
+        equal(storyDB.content,'ABCD');
+        equal(storyDB._id,story._id);
+        equal(storyDB.author._id.toString(),_id);
+        equal(storyDB.author.stories[0].toString(),story._id);
     });
     it('không thể tạo mới story khi không có content',async()=>{
         // send du lieu
