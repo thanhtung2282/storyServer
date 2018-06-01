@@ -9,7 +9,7 @@ const {Story} = require('../../../src/models/story.model');
 const {UserService} =require('../../../src/service/user.service');
 const {StoryService} =require('../../../src/service/story.service');
 //test
-describe('test PUT/story/:_id',()=>{
+describe.only('test PUT/story/:_id',()=>{
     let token1, token2, idUser1, idUser2;
     beforeEach('Sign up user for test', async () => {
         //tao user1

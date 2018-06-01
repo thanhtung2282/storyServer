@@ -38,10 +38,27 @@ describe('test POST/story',()=>{
         const response = await supertest(app).post('/story').set({token}).send({content : ''});
         // get dulieu  
         // console.log(response.body);
-        const {success, story} = response.body;
+        const {success, story, message} = response.body;
         // kiem tra hợp lệ
         equal(success,false);
         equal(story,undefined);
+        equal(message,'CONTENT_MUST_BE_PROVIDE');
+        equal(response.status,400);
+        //kiem tra trong db
+        const storyDB =  await Story.findOne({});
+        // kiem tra hợp lệ
+        equal(storyDB,null);
+    });
+    it('không thể tạo mới story khi không có token',async()=>{
+        // send du lieu
+        const response = await supertest(app).post('/story').send({content : ''});
+        // get dulieu  
+        // console.log(response.body);
+        const {success, story, message} = response.body;
+        // kiem tra hợp lệ
+        equal(success,false);
+        equal(story,undefined);
+        equal(message,'INVALID_TOKEN');
         equal(response.status,400);
         //kiem tra trong db
         const storyDB =  await Story.findOne({});

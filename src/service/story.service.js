@@ -1,10 +1,13 @@
 const {Story} = require('../models/story.model');
 const {User} = require('../models/user.model');
+const {MyError} = require('../models/my-error.model');
+
 class StoryService{
     static getAll(){
         return Story.find({});
     }
     static async createStory(idUser,content){
+        if(!content) throw new MyError("CONTENT_MUST_BE_PROVIDE");
         const story = new Story({content, author:idUser});//create story
         // lưu id Story vào stories của user
         await User.findByIdAndUpdate(idUser,{$push : {stories:story._id}})
