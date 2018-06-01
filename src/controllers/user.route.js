@@ -1,5 +1,6 @@
 const {Router} = require('express');
-const {UserService} =require('../service/user.service')
+const {UserService} =require('../service/user.service');
+const {mustBeUser} = require('./mustBeUser.middleware');
 const userRouter = Router();
 // lấy tất cả story
 //signUP
@@ -8,7 +9,7 @@ userRouter.post('/signin', (req, res) => {
     const { email, plainPassword } = req.body;
     UserService.SignIn(email, plainPassword)
     .then(user =>  res.send({ success: true, user }))
-    .catch(error => res.status(400).send({ success: false, message: error.message }));
+    .catch(res.onError);
 });
     
 userRouter.post('/signup', (req, res) => {
@@ -16,14 +17,12 @@ userRouter.post('/signup', (req, res) => {
     const { email, plainPassword, name } = req.body;
     UserService.SignUp( email, plainPassword, name )
     .then(user => res.send({ success: true, user }))
-    .catch(error => res.status(400).send({ success: false, message: error.message }));
+    .catch(res.onError);
 });
-userRouter.get('/check', (req, res) => {
-    //get token
-    const { token } = req.headers;
+userRouter.get('/check',mustBeUser, (req, res) => {
     //check
-    UserService.check(token)
+    UserService.check(req.idUser)
     .then(user =>  res.send({ success: true, user }))
-    .catch(error => res.status(400).send({ success: false, message: error.message }));
+    .catch(res.onError);
 });
 module.exports = {userRouter};

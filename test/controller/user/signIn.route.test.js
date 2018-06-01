@@ -52,7 +52,7 @@ describe('test POST/user/signIn',()=>{
         //equal ketqua
         const {success,message} = response.body;
         equal(success,false);
-        equal(message,'Cannot find user');
+        equal(message,'INVALID_EMAIL');
         equal(response.status,400);
     });
     it('Không thể SignIn khi sai email',async()=>{
@@ -67,8 +67,8 @@ describe('test POST/user/signIn',()=>{
         //equal ketqua
         const {success,message} = response.body;
         equal(success,false);
-        equal(message,'Cannot find user');
-        equal(response.status,400);
+        equal(message,'CANNOT_FIND_USER');
+        equal(response.status,404);
     });
     it('Không thể SignIn khi không có password',async()=>{
         //tao dữ liêu
@@ -82,7 +82,7 @@ describe('test POST/user/signIn',()=>{
         //equal ketqua
         const {success,message} = response.body;
         equal(success,false);
-        equal(message,'Invalid password');
+        equal(message,'INVALID_PASSWORD');
         equal(response.status,400);
     });
     it('Không thể SignIn khi sai password',async()=>{
@@ -97,7 +97,7 @@ describe('test POST/user/signIn',()=>{
         //equal ketqua
         const {success,message} = response.body;
         equal(success,false);
-        equal(message,'Invalid password');
+        equal(message,'INVALID_PASSWORD');
         equal(response.status,400);
     });
 });

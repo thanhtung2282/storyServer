@@ -2,15 +2,16 @@
 const { hash, compare} = require('bcryptjs');
 const {sign, verify} = require('../helpers/jwt');
 const {User} = require('../models/user.model');
-
+const {MyError} = require('../models/my-error.model');
 class UserService {
     static async SignIn (email, plainPassword){
+        if(!email) throw new MyError('INVALID_EMAIL',400);
         //find by email
         const user = await User.findOne({email});
         //check user
-        if(!user) throw new Error('Cannot find user');
+        if(!user) throw new MyError('CANNOT_FIND_USER',404);
         const same = await compare(plainPassword,user.password);
-        if(!same) throw new Error('Invalid password');
+        if(!same) throw new MyError('INVALID_PASSWORD',400);
         const userInfo = user.toObject();
         //xoa pass
         delete userInfo.password;
@@ -28,13 +29,11 @@ class UserService {
         delete userInfo.password;
         return userInfo;
     }
-    static async check(token){
-        //verify token
-        const { _id } = await verify(token);
+    static async check(idUser){
         //kiểm tra có tồn tại
-        const user = await User.findById(_id);
+        const user = await User.findById(idUser);
         //ko có lỗi
-        if(!user) throw new Error('Cannot find user');
+        if(!user) throw new MyError('CANNOT_FIND_USER',404);
         // bỏ token
         const userInfo = user.toObject();
         delete userInfo.password;

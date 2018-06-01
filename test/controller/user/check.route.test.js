@@ -12,7 +12,7 @@ const {app} = require('../../../src/app');
 const {User} = require('../../../src/models/user.model');
 const {UserService} = require('../../../src/service/user.service');
 //test
-describe('test GET/check',()=>{
+describe.only('test GET/check',()=>{
         let token, _id;
         beforeEach('Sign up user for test', async () => {
             await UserService.SignUp('teo@gmail.com', '123', 'Teo Nguyen');
@@ -38,7 +38,8 @@ describe('test GET/check',()=>{
         //equal ketqua
         const {success,message} = response.body;
         equal(success,false);
-        equal(message,'jwt must be provided');
+        equal(message,'INVALID_TOKEN');
+        equal(response.status,400);
 
     });
     it('không thể login check với empty token',async()=>{
@@ -47,17 +48,19 @@ describe('test GET/check',()=>{
         //equal ketqua
         const {success,message} = response.body;
         equal(success,false);
-        equal(message,'jwt must be provided');
+        equal(message,'INVALID_TOKEN');
+        equal(response.status,400);
 
     });
     it('không thể login check với user đã xoá',async()=>{
         await User.findByIdAndRemove(_id);
         const response = await supertest(app).get('/user/check').set({token});
-            // console.log(response.body);
+        // console.log(response.body);
         //equal ketqua
         const {success,message} = response.body;
         equal(success,false);
-        equal(message,'Cannot find user');
+        equal(message,'CANNOT_FIND_USER');
+        equal(response.status,404);
 
     });
 });
