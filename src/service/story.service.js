@@ -16,13 +16,13 @@ class StoryService{
         return story.save();
     }
     static async updateStory(idUser,_idStory,content){
-        checkObjectId(_idStory);
+        checkObjectId(idUser,_idStory);
         const story =  await Story.findOneAndUpdate({_id:_idStory, author:idUser},{content}, {new:true});
         if(!story) throw new MyError('CANNOT_FIND_STORY',404);
         return story;
     }
     static async removeStory(idUser,_idStory){
-        checkObjectId(_idStory);
+        checkObjectId(idUser,_idStory);
         const query = { _id:_idStory, author: idUser };
         const story =  await Story.findOneAndRemove(query);
         if(!story) throw new MyError('CANNOT_FIND_STORY',404);
