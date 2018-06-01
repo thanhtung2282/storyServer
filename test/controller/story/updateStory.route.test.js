@@ -77,7 +77,7 @@ describe('test PUT/story/:_id',()=>{
         // console.log(response.body)
         const {success,message} = response.body;
         equal(success,false);
-        equal(message,'jwt must be provided');    
+        equal(message,'invalid token');    
         equal(response.status,400);
         const storyDB = await Story.findOne({});
         equal(storyDB.content,'xyz');

@@ -7,7 +7,7 @@ const {app} = require('../../../src/app');
 //story
 const {Story} = require('../../../src/models/story.model');
 //test
-describe('test DELETE/story/:_id',()=>{
+xdescribe('test DELETE/story/:_id',()=>{
     let idStory;
     beforeEach('Tạo story để test remove', async()=>{
         const story = new Story({content:'abcd'});
