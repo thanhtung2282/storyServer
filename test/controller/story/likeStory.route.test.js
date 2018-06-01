@@ -75,4 +75,16 @@ describe('test POST/story/like/:_id',()=>{
         // console.log(storyDB)
         equal(storyDB,null);
     });
+    it('Không thể like story khi 2 lần',async()=>{
+        await supertest(app).post('/story/like/'+idStory).set({token:token2}).send({});
+        const response = await supertest(app).post('/story/like/'+idStory).set({token:token2}).send({});
+        // console.log(response.body)
+        const {success , story, message} = response.body;
+        equal(success,false); 
+        equal(message,'CANNOT_FIND_STORY');    
+        equal(response.status,404);
+        const storyDB = await Story.findById(idStory);
+        // console.log(storyDB)
+        equal(storyDB.fans.length,1);
+    });
 });
