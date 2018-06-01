@@ -59,8 +59,8 @@ describe('test DELETE/story/:_id',()=>{
         // console.log(response.body)
         const {success, message} = response.body;
         equal(success,false);
-        equal(response.status,400);
-        equal(message,'Cannot Find Story');
+        equal(response.status,404);
+        equal(message,'CANNOT_FIND_STORY');
         const storyDB = await Story.findOne({});
         equal(storyDB,null);
         const userDB = await User.findById(idUser1);
@@ -73,7 +73,7 @@ describe('test DELETE/story/:_id',()=>{
         const {success, message} = response.body;
         equal(success,false);
         equal(response.status,400);
-        equal(message,'invalid token');
+        equal(message,'INVALID_TOKEN');
         const storyDB = await Story.findOne({});
         equal(storyDB._id.toString(),idStory);
         const userDB = await User.findById(idUser1);
@@ -85,8 +85,8 @@ describe('test DELETE/story/:_id',()=>{
         // console.log(response.body)
         const {success, message} = response.body;
         equal(success,false);
-        equal(response.status,400);
-        equal(message,'Cannot Find Story');
+        equal(response.status,404);
+        equal(message,'CANNOT_FIND_STORY');
         const storyDB = await Story.findOne({});
         equal(storyDB._id.toString(),idStory);
         const userDB = await User.findById(idUser1);

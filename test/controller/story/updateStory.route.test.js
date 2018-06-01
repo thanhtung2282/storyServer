@@ -9,7 +9,7 @@ const {Story} = require('../../../src/models/story.model');
 const {UserService} =require('../../../src/service/user.service');
 const {StoryService} =require('../../../src/service/story.service');
 //test
-describe.only('test PUT/story/:_id',()=>{
+describe('test PUT/story/:_id',()=>{
     let token1, token2, idUser1, idUser2;
     beforeEach('Sign up user for test', async () => {
         //tao user1
@@ -42,8 +42,9 @@ describe.only('test PUT/story/:_id',()=>{
     it('Không thể update story khi sai idstory',async()=>{
         const response = await supertest(app).put('/story/xyz').set({token:token1}).send({content:'AAA'});
         // console.log(response.body)
-        const {success} = response.body;
+        const {success,message} = response.body;
         equal(success,false);    
+        equal(message,'INVALID_ID');
         equal(response.status,400);
         const storyDB = await Story.findOne({});
         // console.log(storyDB)
@@ -56,8 +57,8 @@ describe.only('test PUT/story/:_id',()=>{
         // console.log(response.body)
         const {success,message} = response.body;
         equal(success,false);
-        equal(message,'Cannot Find Story');    
-        equal(response.status,400);
+        equal(message,'CANNOT_FIND_STORY');    
+        equal(response.status,404);
         const storyDB = await Story.findOne({});
         equal(storyDB,null);
     });
@@ -66,8 +67,8 @@ describe.only('test PUT/story/:_id',()=>{
         // console.log(response.body)
         const {success,message} = response.body;
         equal(success,false);
-        equal(message,'Cannot Find Story');    
-        equal(response.status,400);
+        equal(message,'CANNOT_FIND_STORY');    
+        equal(response.status,404);
         const storyDB = await Story.findOne({});
         // console.log(storyDB)
         equal(storyDB.content,'xyz');
@@ -77,7 +78,7 @@ describe.only('test PUT/story/:_id',()=>{
         // console.log(response.body)
         const {success,message} = response.body;
         equal(success,false);
-        equal(message,'invalid token');    
+        equal(message,'INVALID_TOKEN');    
         equal(response.status,400);
         const storyDB = await Story.findOne({});
         equal(storyDB.content,'xyz');
