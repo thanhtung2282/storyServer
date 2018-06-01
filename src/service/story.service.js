@@ -12,13 +12,15 @@ class StoryService{
         return story.save();
     }
     static async updateStory(idUser,_idStory,content){
-        const story =  await Story.findOneAndUpdate({_id:_idStory, author:idUser},{content}, {new:true})
+        const story =  await Story.findOneAndUpdate({_id:_idStory, author:idUser},{content}, {new:true});
         if(!story) throw new Error('Cannot Find Story');
         return story;
     }
-    static async removeStory(_idStory){
-        const story =  await Story.findByIdAndRemove(_idStory)
+    static async removeStory(idUser,_idStory){
+        const query = { _id:_idStory, author: idUser };
+        const story =  await Story.findOneAndRemove(query);
         if(!story) throw new Error('Cannot Find Story');
+        await User.findOneAndUpdate(idUser,{ $pull :{stories:_idStory} });
         return story;
     }
 }
