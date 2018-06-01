@@ -11,8 +11,8 @@ class StoryService{
         //lưu story
         return story.save();
     }
-    static async updateStory(_idStory,content){
-        const story =  await Story.findByIdAndUpdate(_idStory,{content}, {new:true})
+    static async updateStory(idUser,_idStory,content){
+        const story =  await Story.findOneAndUpdate({_id:_idStory, author:idUser},{content}, {new:true})
         if(!story) throw new Error('Cannot Find Story');
         return story;
     }

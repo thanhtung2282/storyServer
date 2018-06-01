@@ -33,11 +33,11 @@ describe('test POST/story',()=>{
         equal(storyDB.author._id.toString(),_id);
         equal(storyDB.author.stories[0].toString(),story._id);
     });
-    it.only('không thể tạo mới story khi không có content',async()=>{
+    it('không thể tạo mới story khi không có content',async()=>{
         // send du lieu
         const response = await supertest(app).post('/story').set({token}).send({content : ''});
         // get dulieu  
-        console.log(response.body);
+        // console.log(response.body);
         const {success, story} = response.body;
         // kiem tra hợp lệ
         equal(success,false);
