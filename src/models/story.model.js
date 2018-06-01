@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose;
 //use Schema
 storySchema = new Schema({
-    content:{type:String, trim:true, required:true}
+    content:{type:String, trim:true, required:true},
+    user:{type:mongoose.SchemaTypes.ObjectId, ref:'User'}
 });
 const Story = mongoose.model('Story',storySchema);
 //exports

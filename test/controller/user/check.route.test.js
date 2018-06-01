@@ -12,7 +12,7 @@ const {app} = require('../../../src/app');
 const {User} = require('../../../src/models/user.model');
 const {UserService} = require('../../../src/service/user.service');
 //test
-describe.only('test GET/check',()=>{
+describe('test GET/check',()=>{
         let token, _id;
         beforeEach('Sign up user for test', async () => {
             await UserService.SignUp('teo@gmail.com', '123', 'Teo Nguyen');
