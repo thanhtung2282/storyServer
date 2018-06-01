@@ -3,12 +3,13 @@ const mongoose = require('mongoose');
 //tạo obj Schema
 const {Schema} = mongoose;
 //use Schema
-storySchema = new Schema({
+commentSchema = new Schema({
     content:{type:String, trim:true, required:true},
+    story:{type:mongoose.SchemaTypes.ObjectId, ref:'Story'},
     author:{type:mongoose.SchemaTypes.ObjectId, ref:'User'},
-    fans:[{type:mongoose.SchemaTypes.ObjectId, ref:'User'}],
-    comments:[{type:mongoose.SchemaTypes.ObjectId, ref:'Comment'}],
+    fans:[{type:mongoose.SchemaTypes.ObjectId, ref:'User'}]
+
 });
-const Story = mongoose.model('Story',storySchema);
+const Comment = mongoose.model('Comment',commentSchema);
 //exports
-module.exports = {Story};
+module.exports = {Comment};
