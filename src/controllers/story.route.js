@@ -39,4 +39,13 @@ storyRouter.post('/like/:_id',(req,res)=>{
     .then((story)=>{res.send({success:true , story})})
     .catch(res.onError);  
 });
+// dislike  story
+storyRouter.post('/dislike/:_id',(req,res)=>{
+    // lấy id story
+    const { _id } = req.params;
+    //lưu
+    StoryService.dislikeStory(req.idUser,_id)
+    .then((story)=>{res.send({success:true , story})})
+    .catch(res.onError);  
+});
 module.exports = {storyRouter};
