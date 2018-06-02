@@ -20,4 +20,11 @@ commentRouter.put('/:_id', (req, res) => {
     .then(comment  =>  res.send({ success: true, comment  }))
     .catch(res.onError);
 });
+//delete
+commentRouter.delete('/:_id', (req, res) => {
+    
+    CommentService.removeComment(req.idUser,req.params._id)
+    .then(comment  =>  res.send({ success: true, comment  }))
+    .catch(res.onError);
+});
 module.exports = {commentRouter};

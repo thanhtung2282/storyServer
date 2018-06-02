@@ -9,6 +9,8 @@ const {Story} = require('../../../src/models/story.model');
 const {User} = require('../../../src/models/user.model');
 const {UserService} =require('../../../src/service/user.service');
 const {StoryService} =require('../../../src/service/story.service');
+const { Comment } = require('../../../src/models/comment.model');
+const { CommentService } = require('../../../src/service/comment.service');
 //test
 describe('test DELETE/story/:_id',()=>{
     let token1, token2, idUser1, idUser2;
@@ -26,6 +28,7 @@ describe('test DELETE/story/:_id',()=>{
         //tao story bằng user1
         const story = await StoryService.createStory(idUser1, 'xyz');
         idStory = story._id
+        await CommentService.createComment(idUser2, idStory, 'abcd');
     });
     it('Có thể xoá story',async()=>{
         const response = await supertest(app).delete('/story/'+idStory).set({token:token1});
@@ -38,7 +41,9 @@ describe('test DELETE/story/:_id',()=>{
         equal(storyDB,null);
         const userDB = await User.findById(idUser1);
         equal(userDB.stories.length,0);
-        // console.log(userDB)
+        const comment = await Comment.findOne({});
+        // console.log(comment);
+        equal(comment, null);
     });
     it('Không thể xoá story khi sai id',async()=>{
         const response = await supertest(app).delete('/story/asda').set({token:token1});

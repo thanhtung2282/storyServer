@@ -101,7 +101,7 @@ describe('test POST/story/like/:_id',()=>{
     it('không thể update comment khi comment đã xoa',async()=>{
         await Comment.findByIdAndRemove(idComment);
         const response = await supertest(app).put('/comment/'+idComment).set({token:token2}).send({content:'UPDATE'});
-        console.log(response.body)
+        // console.log(response.body)
         const {success , comment,message} = response.body;
         equal(success,false);    
         equal(message,'CANNOT_FIND_COMMENT');   
