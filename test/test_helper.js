@@ -6,10 +6,14 @@ require('../src/helpers/connectdatabase');
 const { Story } = require('../src/models/story.model');
 // gọi user
 const { User } = require('../src/models/user.model');
+// gọi comment
+const { Comment } = require('../src/models/comment.model');
 //chạy
 beforeEach('Xoá tất cả dữ liệu để test',async()=>{
     //xoá story
     await Story.remove({});
     //xoá user
     await User.remove({});
+    //xoá user
+    await Comment.remove({});
 });
