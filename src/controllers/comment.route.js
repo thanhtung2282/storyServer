@@ -12,5 +12,12 @@ commentRouter.post('/', (req, res) => {
     .then(comment  =>  res.send({ success: true, comment  }))
     .catch(res.onError);
 });
-
+//update
+commentRouter.put('/:_id', (req, res) => {
+    //get du lieu
+    const { content } = req.body;
+    CommentService.updateComment(req.idUser,req.params._id,content)
+    .then(comment  =>  res.send({ success: true, comment  }))
+    .catch(res.onError);
+});
 module.exports = {commentRouter};
