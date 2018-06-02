@@ -7,6 +7,7 @@ const {checkObjectId} = require('../helpers/checkObjectId');
 class CommentService{
     //tao new comment
     static async createComment(idUser,idStory,content){
+        checkObjectId(idUser,idStory);
         if(!content) throw new MyError('INVALID_CONTENT',400);
         //save comment. user and content
         const comment = new Comment({author:idUser,content});
